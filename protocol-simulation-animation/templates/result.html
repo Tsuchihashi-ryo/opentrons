@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アニメーション生成結果</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1, h2 { color: #333; }
+        .container { max-width: 800px; margin: auto; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
+        .animation-container { border: 2px dashed #ccc; padding: 20px; text-align: center; margin-top: 20px; background-color: #f9f9f9; }
+        .error { color: red; font-weight: bold; }
+        .flashes { list-style-type: none; padding: 0; }
+        .flashes li { background-color: #dff0d8; border: 1px solid #d6e9c6; color: #3c763d; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        .flashes li.error { background-color: #f2dede; border-color: #ebccd1; color: #a94442; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>アニメーション生成結果</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        {% if animation_url %}
+            <h2>生成されたアニメーション</h2>
+            <div class="animation-container">
+                <p>（ここに生成された動画が表示されます）</p>
+                <p><strong>注意:</strong> 現在はダミーのテキストファイルが生成されるだけです。</p>
+                <a href="{{ animation_url }}" target="_blank">生成されたファイルを見る</a>
+                <br><br>
+                <p>実際の動画は、今後のステップでここに表示されるようになります。</p>
+            </div>
+        {% else %}
+            <h2 class="error">エラー</h2>
+            <p>アニメーションの生成に失敗しました。詳細はサーバーログを確認してください。</p>
+        {% endif %}
+        <br>
+        <a href="{{ url_for('index') }}">別のプロトコルを試す</a>
+    </div>
+</body>
+</html>
